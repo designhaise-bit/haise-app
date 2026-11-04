@@ -1,0 +1,5 @@
+# Same as netlify.toml, for drag-and-drop uploads.
+/*
+  Content-Security-Policy: script-src 'self'
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin

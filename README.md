@@ -22,10 +22,12 @@ In demo mode everything is saved in that one browser only, so use it for testing
 
 **2. Hosting: Netlify (free plan)**
 
-1. Go to https://app.netlify.com/drop.
-2. Drag this whole folder onto the page. You get a link like `haise-design.netlify.app`.
+1. In Netlify: **Add new site > Import an existing project > GitHub > haise-app**.
+2. Leave the build command empty and the publish directory as `.`, then **Deploy**.
 3. Your customer link is that address. Your admin page is the same address + `/admin.html`.
-4. To update later, drag the folder onto **Deploys** for the same site.
+4. Every push to `main` goes live automatically.
+
+`netlify.toml` sets a security header that only allows the app's own scripts. That also stops the "Powered by Netlify" badge from appearing.
 
 GitHub Pages or Cloudflare Pages work the same way if you prefer them.
 
@@ -33,6 +35,10 @@ GitHub Pages or Cloudflare Pages work the same way if you prefer them.
 
 - Supabase free: 500 MB database, 1 GB file storage. That is thousands of orders, but large reference images add up, so delete old orders' files once a job is done.
 - Supabase pauses a free project after 7 days with no visits. Opening admin once a week keeps it awake.
+
+## Jersey types and prices
+
+Customer-facing jersey types, collar options, materials and sizes are in `catalog.js`. Invoice prices come from the order, and the quick-add list is in admin Settings.
 
 ## Invoice numbers
 

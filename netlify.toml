@@ -1,0 +1,17 @@
+# Static site: no build step, publish this folder as-is.
+[build]
+  publish = "."
+
+# Only the app's own scripts may run. This also stops Netlify's injected
+# "Powered by Netlify" badge from loading, since it needs inline scripts.
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Content-Security-Policy = "script-src 'self'"
+    X-Frame-Options = "DENY"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+[[headers]]
+  for = "/config.js"
+  [headers.values]
+    Cache-Control = "no-cache"

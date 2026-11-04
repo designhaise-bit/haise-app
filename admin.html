@@ -10,11 +10,19 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;1,600&display=swap">
 <link rel="stylesheet" href="app.css">
 <style>
-  .tabs { display: flex; gap: 4px; flex-wrap: wrap; }
-  .tabs button { font: inherit; font-weight: 600; font-size: 14px; border: 0; background: transparent; color: var(--ink-2); padding: 8px 12px; border-radius: 8px; cursor: pointer; }
-  .tabs button.on { background: var(--teal-soft); color: var(--teal-dark); }
+  .tabs { display: flex; gap: 2px; padding: 3px; border-radius: 999px; background: rgba(120,130,135,.14); }
+  .tabs button { font: inherit; font-weight: 600; font-size: 14px; border: 0; background: transparent; color: var(--ink-2); padding: 8px 14px; border-radius: 999px; cursor: pointer; white-space: nowrap; }
+  .tabs button.on { background: #fff; color: var(--ink); box-shadow: 0 2px 8px rgba(31,61,64,.14); }
+  /* On phones the tabs float at the bottom, like an iOS tab bar */
+  @media (max-width: 760px) {
+    .tabs { position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(12px + env(safe-area-inset-bottom)); z-index: 30; padding: 5px;
+      background: var(--glass); -webkit-backdrop-filter: var(--blur); backdrop-filter: var(--blur); border: 1px solid var(--glass-edge); box-shadow: var(--glass-hi), 0 10px 30px rgba(31,61,64,.2); max-width: calc(100vw - 24px); overflow-x: auto; }
+    .tabs button { padding: 9px 12px; font-size: 13px; }
+    .wrap { padding-bottom: 110px !important; }
+    .brandbar .brand-tag { display: none; }
+  }
   .wrap { max-width: 1180px; margin: 0 auto; padding: 22px max(16px, env(safe-area-inset-left)) 60px; }
-  .card { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); }
+  .card { background: var(--glass); -webkit-backdrop-filter: var(--blur); backdrop-filter: var(--blur); border: 1px solid var(--glass-edge); box-shadow: var(--glass-hi), var(--glass-shadow); border-radius: 22px; }
   .row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
   .muted { color: var(--ink-2); font-size: 13px; }
   h2.page { font-size: 22px; font-weight: 800; margin-bottom: 14px; }
@@ -25,7 +33,7 @@
   /* orders */
   .olist { display: grid; gap: 10px; }
   .orow { display: grid; grid-template-columns: 1fr auto; gap: 8px 16px; padding: 14px 16px; cursor: pointer; align-items: center; }
-  .orow:hover { border-color: var(--teal); }
+  .orow:hover { background: var(--glass-strong); }
   .orow .t { font-weight: 700; }
   .orow .s { font-size: 13px; color: var(--ink-2); }
   .filters { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
@@ -37,31 +45,32 @@
   .kv dd { margin: 0; min-width: 0; overflow-wrap: anywhere; white-space: pre-wrap; }
   @media (max-width: 560px) { .kv { grid-template-columns: 1fr; } .kv dd { margin-bottom: 8px; } }
   .swatches { display: flex; gap: 6px; flex-wrap: wrap; }
-  .swatches i { width: 28px; height: 28px; border-radius: 6px; border: 1px solid var(--line); display: inline-block; }
+  .swatches i { width: 28px; height: 28px; border-radius: 50%; border: 1px solid var(--line); display: inline-block; }
   .gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 10px; }
   .gallery a { display: grid; gap: 4px; text-decoration: none; color: var(--ink); font-size: 12px; }
-  .gallery .ph { aspect-ratio: 1; border-radius: 8px; border: 1px solid var(--line); background: var(--teal-soft) center/cover no-repeat; display: grid; place-items: center; font-weight: 700; color: var(--teal-dark); }
+  .gallery .ph { aspect-ratio: 1; border-radius: 16px; border: 1px solid var(--line); background: var(--teal-soft) center/cover no-repeat; display: grid; place-items: center; font-weight: 700; color: var(--teal-dark); }
   .gallery span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
+  .jitems { display: grid; gap: 10px; }
+  .jitem { padding: 14px 16px; border-radius: 18px; background: rgba(255,255,255,.55); border: 1px solid rgba(255,255,255,.9); display: grid; gap: 10px; }
+  .chipv { font-size: 13px; padding: 4px 10px; border-radius: 99px; background: rgba(95,176,163,.16); font-variant-numeric: tabular-nums; }
+  table.ppl td, table.ppl th { padding: 6px 10px; }
   /* builder */
   .builder { display: grid; grid-template-columns: minmax(0, 420px) minmax(0, 1fr); gap: 22px; align-items: start; }
   @media (max-width: 980px) { .builder { grid-template-columns: 1fr; } }
   .panel { padding: 18px; display: grid; gap: 14px; }
   .panel h3 { font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-2); }
   .g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-  .seg { display: inline-flex; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
-  .seg button { font: inherit; font-weight: 700; font-size: 14px; border: 0; padding: 9px 18px; background: #fff; color: var(--ink-2); cursor: pointer; }
-  .seg button.on { background: var(--teal); color: #fff; }
   .items { display: grid; gap: 8px; }
   .item { display: grid; grid-template-columns: 1fr 74px 58px 30px; gap: 6px; }
   .item input { padding: 8px; font-size: 14px; }
   .item button { border: 0; background: none; color: var(--ink-2); cursor: pointer; font-size: 18px; }
   .sumline { display: flex; justify-content: space-between; font-size: 14px; font-variant-numeric: tabular-nums; }
   .sumline b { font-size: 15px; }
-  .sticky-actions { position: sticky; bottom: env(safe-area-inset-bottom); background: var(--bg); padding: 10px 0; display: flex; gap: 8px; flex-wrap: wrap; z-index: 2; }
+  .sticky-actions { position: sticky; bottom: env(safe-area-inset-bottom); padding: 10px 0; display: flex; gap: 8px; flex-wrap: wrap; z-index: 2; }
 
   .preview-box { position: sticky; top: 16px; }
-  .preview-scale { width: 100%; overflow: hidden; border-radius: 6px; box-shadow: 0 8px 30px rgba(30,40,40,.14); background: #fff; }
+  .preview-scale { width: 100%; overflow: hidden; border-radius: 10px; box-shadow: 0 14px 40px rgba(30,40,40,.18); background: #fff; }
   .preview-scale .sheet { transform-origin: top left; }
 
   /* ===== A4 sheet, modelled on the original invoice ===== */
@@ -72,8 +81,8 @@
   .sh-brand .nm { font-size: 27px; font-weight: 700; letter-spacing: .01em; line-height: 1; }
   .sh-brand .tg { font-size: 9.5px; letter-spacing: .38em; margin-top: 5px; }
   .sh-brand .rg { font-size: 9px; margin-top: 3px; }
-  .sh-title { font-size: 50px; font-weight: 800; color: var(--teal); letter-spacing: .02em; }
-  .sh-rule { height: 4px; background: var(--teal); }
+  .sh-title { font-size: 50px; font-weight: 800; color: #5fa69b; letter-spacing: .02em; }
+  .sh-rule { height: 4px; background: #5fa69b; }
   .sh-meta { display: flex; justify-content: space-between; padding: 26px 56px 0 42px; min-height: 150px; }
   .sh-cust { font-size: 18px; font-weight: 500; display: grid; gap: 6px; width: 380px; }
   .sh-cust .ln { display: flex; align-items: flex-end; gap: 6px; }
@@ -94,23 +103,24 @@
   .sh-left { font-size: 10.5px; display: grid; gap: 12px; align-content: start; width: 340px; }
   .sh-left b { font-weight: 800; }
   .sh-thanks { font-weight: 600; font-size: 11px; letter-spacing: .04em; }
-  .sh-pay h4 { margin: 8px 0 6px; color: var(--teal); font-size: 15px; font-weight: 600; letter-spacing: .04em; }
+  .sh-pay h4 { margin: 8px 0 6px; color: #5fa69b; font-size: 15px; font-weight: 600; letter-spacing: .04em; }
   .sh-pay div { display: grid; grid-template-columns: 70px 1fr; font-size: 8.5px; gap: 2px; }
   .sh-pay div b { font-weight: 700; }
   .sh-tot { width: 290px; padding-top: 14px; }
   .sh-tot .l { display: grid; grid-template-columns: 1fr 100px; font-weight: 700; font-size: 11.5px; padding: 3px 0 3px 40px; letter-spacing: .03em; font-variant-numeric: tabular-nums; }
-  .sh-tot .grand { border-top: 1.4px solid #3a3d46; margin-top: 10px; padding-top: 10px; color: var(--teal); font-size: 17px; font-weight: 600; }
+  .sh-tot .grand { border-top: 1.4px solid #3a3d46; margin-top: 10px; padding-top: 10px; color: #5fa69b; font-size: 17px; font-weight: 600; }
   .sh-foot { display: flex; justify-content: space-between; align-items: flex-end; padding: 22px 42px 0 46px; }
   .sh-addr { font-size: 7.5px; font-weight: 600; line-height: 1.45; white-space: pre-line; }
   .sh-addr::before { content: ""; display: block; width: 110px; border-top: 1.4px solid #3a3d46; margin-bottom: 22px; }
-  .sh-addr h5 { margin: 0 0 6px; color: var(--teal); font-size: 12px; font-weight: 600; }
+  .sh-addr h5 { margin: 0 0 6px; color: #5fa69b; font-size: 12px; font-weight: 600; }
   .sh-sign { width: 160px; text-align: center; font-size: 9px; font-weight: 600; letter-spacing: .05em; border-top: 1.4px solid #3a3d46; padding-top: 6px; margin-bottom: 40px; }
   .sh-note { position: absolute; left: 46px; bottom: 20px; font-size: 6.5px; font-weight: 700; }
-  .sh-stamp { position: absolute; right: 120px; top: 600px; transform: rotate(-14deg); border: 4px solid var(--teal); color: var(--teal); font-size: 44px; font-weight: 800; letter-spacing: .12em; padding: 4px 20px; border-radius: 10px; opacity: .8; }
+  .sh-stamp { position: absolute; right: 120px; top: 600px; transform: rotate(-14deg); border: 4px solid #5fa69b; color: #5fa69b; font-size: 44px; font-weight: 800; letter-spacing: .12em; padding: 4px 20px; border-radius: 10px; opacity: .8; }
 
   @media print {
     @page { size: A4; margin: 0; }
     html, body { background: #fff; }
+    body::after { display: none !important; }
     body > *:not(#printArea) { display: none !important; }
     #printArea { display: block !important; }
     #printArea .sheet { transform: none !important; }
@@ -265,326 +275,14 @@
     </div>
   </section>
 </main>
+<footer class="site-foot">Developed by <b>Haise Design</b> - ig: <a href="https://instagram.com/haisedesign" target="_blank" rel="noopener">@haisedesign</a></footer>
 
 <div id="printArea"></div>
 
 <script src="vendor/supabase.js"></script>
 <script src="config.js"></script>
 <script src="store.js"></script>
-<script>
-const $ = (s, el = document) => el.querySelector(s);
-const $$ = (s, el = document) => [...el.querySelectorAll(s)];
-const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
-const num = (v) => { const n = parseFloat(v); return isFinite(n) ? n : 0; };
-const rm = (n) => "RM " + (Math.round(n * 100) % 100 ? n.toLocaleString("en-MY", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : Math.round(n).toLocaleString("en-MY"));
-const today = () => new Date().toISOString().slice(0, 10);
-const dmy = (iso) => { if (!iso) return ""; const [y, m, d] = iso.split("-"); return `${d} / ${m} / ${y}`; };
-function toast(msg) { const t = document.createElement("div"); t.className = "toast"; t.textContent = msg; document.body.appendChild(t); setTimeout(() => t.remove(), 2600); }
-
-let S = null;          // settings
-let orders = [];
-let doc = null;        // current invoice / receipt
-let orderFilter = "all";
-const STATUS = { new: "New", quoted: "Quoted", progress: "In progress", done: "Done" };
-
-// ================= boot / auth =================
-async function boot() {
-  if (!Store.live) $("#demoBanner").hidden = false;
-  const sess = await Store.session();
-  if (!sess) { $("#loginView").hidden = false; return; }
-  $("#loginView").hidden = true;
-  $("#appView").hidden = false; $("#tabs").hidden = false; $("#logout").hidden = !Store.live;
-  S = await Store.getSettings();
-  doc = blankDoc();
-  fillBuilder(); renderSettings(); loadOrders();
-}
-$("#lBtn").onclick = async () => {
-  $("#lErr").textContent = "";
-  try { await Store.signIn($("#lEmail").value, $("#lPass").value); boot(); } catch (e) { $("#lErr").textContent = e.message; }
-};
-$("#lPass").addEventListener("keydown", (e) => e.key === "Enter" && $("#lBtn").click());
-$("#logout").onclick = async () => { await Store.signOut(); location.reload(); };
-
-// ================= tabs =================
-function showTab(name) {
-  $$("#tabs [data-tab]").forEach((b) => b.classList.toggle("on", b.dataset.tab === name));
-  $$("[data-view]").forEach((v) => (v.hidden = v.dataset.view !== name));
-  if (name === "history") loadHistory();
-  if (name === "builder") requestAnimationFrame(fitPreview);
-}
-$$("#tabs [data-tab]").forEach((b) => (b.onclick = () => showTab(b.dataset.tab)));
-
-// ================= orders =================
-async function loadOrders() {
-  try { orders = await Store.listOrders(); } catch (e) { toast(e.message); orders = []; }
-  drawOrders();
-}
-$("#refresh").onclick = loadOrders;
-function drawOrders() {
-  const counts = { all: orders.length }; orders.forEach((o) => (counts[o.status] = (counts[o.status] || 0) + 1));
-  $("#filters").innerHTML = [["all", "All"], ...Object.entries(STATUS)].map(([k, l]) => `<button class="btn small ${orderFilter === k ? "primary" : ""}" data-f="${k}">${l} (${counts[k] || 0})</button>`).join("");
-  const list = orders.filter((o) => orderFilter === "all" || o.status === orderFilter);
-  $("#olist").innerHTML = list.length ? list.map((o) => {
-    const d = o.details || {}, c = o.customer || {};
-    const what = `${d.designType || ""}${d.shirtTypes?.length ? " · " + d.shirtTypes.join(", ") : ""}`;
-    const qty = d.printing ? ` · ${d.printing.qty} pcs` : "";
-    return `<div class="card orow" data-id="${o.id}">
-      <div><div class="t">${esc(c.name)} ${c.org ? `<span class="muted">· ${esc(c.org)}</span>` : ""}</div>
-      <div class="s">${esc(o.order_no)} · ${d.service === "design_print" ? "Design + Printing" : "Design only"} · ${esc(what)}${qty}</div></div>
-      <div style="text-align:right"><span class="pill ${o.status}">${STATUS[o.status] || o.status}</span><div class="s" style="margin-top:4px">${new Date(o.created_at).toLocaleDateString("en-GB")}</div></div></div>`;
-  }).join("") : `<div class="card empty">No orders yet. Share your order page link with customers and their orders will show up here.</div>`;
-}
-$("#filters").onclick = (e) => { if (e.target.dataset.f) { orderFilter = e.target.dataset.f; drawOrders(); } };
-$("#olist").onclick = (e) => { const r = e.target.closest(".orow"); if (r) openOrder(r.dataset.id); };
-
-async function openOrder(id) {
-  const o = orders.find((x) => x.id === id); if (!o) return;
-  const d = o.details || {}, c = o.customer || {}, p = d.printing;
-  const waNo = (c.phone || "").replace(/\D/g, "").replace(/^0/, "60");
-  const kv = (k, v) => (v ? `<dt>${k}</dt><dd>${v}</dd>` : "");
-  const box = $("#orderDetail");
-  box.innerHTML = `<button class="btn small ghost" id="back">← All orders</button>
-  <div class="card detail" style="margin-top:10px">
-    <div class="row" style="justify-content:space-between">
-      <div><h2 style="font-size:20px">${esc(c.name)}</h2><div class="muted">${esc(o.order_no)} · ${new Date(o.created_at).toLocaleString("en-GB")}</div></div>
-      <div class="row">
-        <select id="status" style="width:auto">${Object.entries(STATUS).map(([k, l]) => `<option value="${k}" ${o.status === k ? "selected" : ""}>${l}</option>`).join("")}</select>
-        <a class="btn" href="https://wa.me/${waNo}" target="_blank" rel="noopener">WhatsApp</a>
-        <button class="btn primary" id="mkInv">Create invoice</button>
-      </div>
-    </div>
-    <dl class="kv">
-      ${kv("Phone", esc(c.phone))}${kv("Email", esc(c.email))}${kv("Team / company", esc(c.org))}
-      ${kv("Service", d.service === "design_print" ? "Design + Printing" : "Design only")}
-      ${kv("Design", esc(d.designType))}
-      ${kv("Shirt type", esc((d.shirtTypes || []).join(", ")))}
-      ${d.colors?.length || d.colorNotes ? `<dt>Colour theme</dt><dd><div class="swatches">${(d.colors || []).map((x) => `<i style="background:${esc(x)}" title="${esc(x)}"></i>`).join("")}</div>${esc(d.colorNotes)}</dd>` : ""}
-      ${d.logo ? kv("Logo text", esc([d.logo.name, d.logo.slogan].filter(Boolean).join(" / "))) : ""}
-      ${d.poster ? kv("Poster", esc(d.poster.size + (d.poster.text ? " · " + d.poster.text : ""))) : ""}
-      ${kv("Brief", esc(d.brief))}
-      ${kv("Names / numbers", esc(d.names))}
-      ${p ? kv("Sizes", esc(Object.entries(p.sizes).map(([s, q]) => `${s}: ${q}`).join("   ")) + ` <b>(${p.qty} pcs)</b>`) : ""}
-      ${p ? kv("Material", esc(p.material)) : ""}${p ? kv("Needed by", esc(dmy(p.needBy))) : ""}
-      ${p ? kv("Collection", p.delivery === "postage" ? "Postage: " + esc(c.address) : "Self pickup") : ""}
-    </dl>
-    <div><h3 style="font-size:15px;margin-bottom:10px">Attachments (${(o.files || []).length})</h3><div class="gallery" id="gal">${(o.files || []).length ? "" : `<span class="muted">No files attached.</span>`}</div></div>
-    <div class="row"><button class="btn small danger" id="delOrder">Delete order</button><span class="muted" id="delConfirm"></span></div>
-  </div>`;
-  $("#ordersList").hidden = true; box.hidden = false; window.scrollTo(0, 0);
-  $("#back").onclick = () => { box.hidden = true; $("#ordersList").hidden = false; drawOrders(); };
-  $("#status").onchange = async (e) => { try { await Store.setOrderStatus(o.id, e.target.value); o.status = e.target.value; toast("Status updated"); } catch (er) { toast(er.message); } };
-  $("#mkInv").onclick = () => invoiceFromOrder(o);
-  let armed = false;
-  $("#delOrder").onclick = async () => {
-    if (!armed) { armed = true; $("#delOrder").textContent = "Click again to delete"; $("#delConfirm").textContent = "This also removes the attached files."; return; }
-    try { await Store.deleteOrder(o); orders = orders.filter((x) => x.id !== o.id); $("#back").click(); toast("Order deleted"); } catch (er) { toast(er.message); }
-  };
-  const tags = d.fileTags || [];
-  for (const [i, f] of (o.files || []).entries()) {
-    const url = await Store.fileUrl(f);
-    const isImg = (f.type || "").startsWith("image/");
-    const a = document.createElement(url ? "a" : "div");
-    if (url) { a.href = url; a.target = "_blank"; a.rel = "noopener"; a.download = f.name; }
-    a.innerHTML = `<div class="ph" style="${isImg && url ? `background-image:url('${url}')` : ""}">${isImg && url ? "" : esc((f.name.split(".").pop() || "").toUpperCase())}</div><span title="${esc(f.name)}">${esc(f.name)}</span><span class="muted">${esc(tags[i] || "")}${url ? "" : " · preview not kept in demo"}</span>`;
-    $("#gal").appendChild(a);
-  }
-}
-
-// ================= invoice / receipt builder =================
-function nextNumber(dateIso) {
-  const [y, m, d] = (dateIso || today()).split("-");
-  return `${y.slice(2)}${d}${m}${String(S.nextSeq).padStart(2, "0")}`;
-}
-function blankDoc(type = "invoice") {
-  return { type, number: nextNumber(today()), date: today(), name: "", addr1: "", addr2: "", items: [{ desc: "", price: "", qty: "" }], depositPct: S.depositPct, totalPaid: 0, ref: "", prevPaid: 0, received: 0, method: "Online transfer", payRef: "", orderId: null };
-}
-function invoiceFromOrder(o) {
-  const d = o.details || {}, c = o.customer || {};
-  doc = blankDoc("invoice");
-  doc.name = c.name; doc.addr1 = c.org || ""; doc.addr2 = d.printing?.delivery === "postage" ? c.address.replace(/\n/g, ", ") : ""; doc.orderId = o.id;
-  const priceOf = (n) => (S.priceList.find((p) => p.name.toLowerCase() === n.toLowerCase()) || {}).price ?? "";
-  if (d.printing) {
-    // Map the customer's shirt-type choice to your price-list names.
-    const MAP = { "Roundneck": "Roundneck Shortsleeve", "Longsleeve": "Roundneck Longsleeve", "Polo collar": "Polo Shortsleeve", "Retro collar": "Retro Collar", "V-neck collar": "V-neck Collar", "Muslimah": "Muslimah" };
-    const types = d.shirtTypes?.length ? d.shirtTypes.map((t) => MAP[t] || t) : [d.designType];
-    // One type: whole quantity on that line. Several types: fill quantities after confirming the split with the customer.
-    doc.items = types.map((t) => ({ desc: t, price: priceOf(t), qty: types.length === 1 ? d.printing.qty : "" }));
-  } else {
-    const label = d.designType === "Logo" ? "Logo Design" : d.designType === "Poster" ? "Poster Design" : `${d.designType} Design (design only)`;
-    doc.items = [{ desc: label, price: priceOf(label), qty: 1 }];
-  }
-  fillBuilder(); showTab("builder"); toast("Invoice started from " + o.order_no);
-}
-const totals = () => {
-  const sub = doc.items.reduce((a, i) => a + num(i.price) * num(i.qty), 0);
-  const deposit = sub * num(doc.depositPct) / 100;
-  const paid = doc.type === "receipt" ? num(doc.prevPaid) + num(doc.received) : num(doc.totalPaid);
-  return { sub, deposit, paid, bal: Math.max(0, sub - paid) };
-};
-
-function fillBuilder() {
-  $$("#docType button").forEach((b) => b.classList.toggle("on", b.dataset.t === doc.type));
-  $("#dName").value = doc.name; $("#dAddr1").value = doc.addr1; $("#dAddr2").value = doc.addr2;
-  $("#dNo").value = doc.number; $("#dDate").value = doc.date; $("#dRef").value = doc.ref;
-  $("#dDep").value = doc.depositPct; $("#dPaid").value = doc.totalPaid || "";
-  $("#dPrev").value = doc.prevPaid || ""; $("#dRecv").value = doc.received || ""; $("#dMethod").value = doc.method; $("#dPref").value = doc.payRef;
-  const isR = doc.type === "receipt";
-  $("#numLabel").textContent = isR ? "Receipt #" : "Invoice #";
-  $("#refBox").hidden = !isR; $("#invPay").hidden = isR; $("#rcpPay").hidden = !isR; $("#toReceipt").hidden = isR;
-  drawItems(); drawPresets(); render();
-}
-function drawItems() {
-  $("#items").innerHTML = doc.items.map((it, i) => `<div class="item">
-    <input data-k="desc" data-i="${i}" value="${esc(it.desc)}" placeholder="e.g. Roundneck Shortsleeve" aria-label="Description">
-    <input data-k="price" data-i="${i}" value="${esc(it.price)}" type="number" step="0.01" min="0" aria-label="Price">
-    <input data-k="qty" data-i="${i}" value="${esc(it.qty)}" type="number" min="0" aria-label="Quantity">
-    <button data-rm="${i}" aria-label="Remove line">×</button></div>`).join("");
-}
-function drawPresets() { $("#presets").innerHTML = S.priceList.map((p, i) => `<button class="btn small" data-p="${i}">${esc(p.name)} · ${rm(num(p.price))}</button>`).join(""); }
-
-$("#items").addEventListener("input", (e) => { const { k, i } = e.target.dataset; if (k) { doc.items[i][k] = e.target.value; render(); } });
-$("#items").addEventListener("click", (e) => { if (e.target.dataset.rm) { doc.items.splice(+e.target.dataset.rm, 1); if (!doc.items.length) doc.items.push({ desc: "", price: "", qty: "" }); drawItems(); render(); } });
-$("#addItem").onclick = () => { doc.items.push({ desc: "", price: "", qty: "" }); drawItems(); render(); };
-$("#presets").onclick = (e) => {
-  const p = S.priceList[e.target.dataset.p]; if (!p) return;
-  const empty = doc.items.find((i) => !i.desc && !i.price);
-  const line = { desc: p.name, price: p.price, qty: 1 };
-  empty ? Object.assign(empty, line) : doc.items.push(line);
-  drawItems(); render();
-};
-const bind = (id, key, isNum) => $(id).addEventListener("input", (e) => { doc[key] = isNum ? e.target.value : e.target.value; if (key === "date" && !doc._numEdited && !doc.id) { doc.number = nextNumber(doc.date); $("#dNo").value = doc.number; } render(); });
-bind("#dName", "name"); bind("#dAddr1", "addr1"); bind("#dAddr2", "addr2"); bind("#dDate", "date"); bind("#dRef", "ref");
-bind("#dDep", "depositPct", 1); bind("#dPaid", "totalPaid", 1); bind("#dPrev", "prevPaid", 1); bind("#dRecv", "received", 1); bind("#dMethod", "method"); bind("#dPref", "payRef");
-$("#dNo").addEventListener("input", (e) => { doc.number = e.target.value; doc._numEdited = true; render(); });
-$("#dMethod").addEventListener("change", (e) => { doc.method = e.target.value; render(); });
-
-$("#docType").onclick = (e) => { const t = e.target.dataset.t; if (t && t !== doc.type) { doc.type = t; fillBuilder(); } };
-$("#newDoc").onclick = () => { doc = blankDoc(doc.type); fillBuilder(); };
-$("#toReceipt").onclick = () => {
-  const t = totals();
-  doc = Object.assign(JSON.parse(JSON.stringify(doc)), { id: undefined, createdAt: undefined, _numEdited: false, type: "receipt", ref: doc.number, prevPaid: t.paid, received: Math.max(0, t.sub - t.paid), date: today() });
-  doc.number = nextNumber(doc.date);
-  fillBuilder(); toast("Receipt ready. Adjust the amount received if this is a partial payment.");
-};
-
-function sheetHTML() {
-  const t = totals(), isR = doc.type === "receipt";
-  const rows = [...doc.items]; while (rows.length < 4) rows.push({});
-  const rowsHtml = rows.slice(0, 7).map((it, i) => {
-    const has = it.desc || it.price || it.qty;
-    return `<div class="sh-tr body ${i % 2 === 0 ? "alt" : ""}"><span class="num">${i + 1}</span><span>${esc(it.desc || "")}</span>
-      <span class="b">${has && it.price !== "" ? rm(num(it.price)) : ""}</span><span class="b c">${has ? esc(it.qty) : ""}</span><span class="b">${has ? rm(num(it.price) * num(it.qty)) : ""}</span></div>`;
-  }).join("");
-  const totalsHtml = isR
-    ? `<div class="l"><span>Sub Total:</span><span>${rm(t.sub)}</span></div>
-       <div class="l"><span>Paid Before:</span><span>${rm(num(doc.prevPaid))}</span></div>
-       <div class="l"><span>Received:</span><span>${rm(num(doc.received))}</span></div>
-       <div class="l grand"><span>Balance:</span><span>${rm(t.bal)}</span></div>`
-    : `<div class="l"><span>Sub Total:</span><span>${rm(t.sub)}</span></div>
-       <div class="l"><span>Deposit (${esc(doc.depositPct)}%)</span><span>${rm(t.deposit)}</span></div>
-       <div class="l grand"><span>Total Paid:</span><span>${rm(t.paid)}</span></div>
-       ${t.paid > 0 ? `<div class="l" style="margin-top:4px"><span>Balance Due:</span><span>${rm(t.bal)}</span></div>` : ""}`;
-  const leftHtml = isR
-    ? `<div><b>PAYMENT METHOD:</b> ${esc(doc.method)}</div>${doc.payRef ? `<div><b>REFERENCE:</b> ${esc(doc.payRef)}</div>` : ""}${doc.ref ? `<div><b>FOR INVOICE:</b> #${esc(doc.ref)}</div>` : ""}`
-    : `<div><b>VALIDITY:</b> ${esc(S.validity)}</div><div><b>Payment Terms:</b> ${esc(S.terms)}</div>`;
-  return `<div class="sheet">
-    <div class="sh-head">
-      <div class="sh-brand"><img src="assets/logo.png" alt=""><div><div class="nm">${esc(S.businessName.toUpperCase())}</div><div class="tg">${esc(S.tagline.toUpperCase())}</div>${S.regNo ? `<div class="rg">(${esc(S.regNo)})</div>` : ""}</div></div>
-      <div class="sh-title">${isR ? "RECEIPT" : "INVOICE"}</div>
-    </div>
-    <div class="sh-rule"></div>
-    <div class="sh-meta">
-      <div class="sh-cust">
-        <div class="ln">Name: <span class="val">${esc(doc.name)}</span></div>
-        <div class="ln">Address: <span class="val">${esc(doc.addr1)}</span></div>
-        <div class="blank">${esc(doc.addr2)}</div>
-      </div>
-      <div class="sh-ids"><span>${isR ? "Receipt#" : "Invoice#"}</span><span>${esc(doc.number)}</span><span>Date:</span><span>${dmy(doc.date)}</span></div>
-    </div>
-    <div class="sh-table">
-      <div class="sh-tr sh-th"><span>SL.</span><span>Item Description</span><span>Price</span><span class="c">Qty.</span><span>Total</span></div>
-      ${rowsHtml}
-    </div>
-    ${isR && t.bal === 0 && t.sub > 0 ? `<div class="sh-stamp">PAID</div>` : ""}
-    <div class="sh-bottom">
-      <div class="sh-rule"></div>
-      <div class="sh-split">
-        <div class="sh-left">${leftHtml}<div class="sh-thanks">${esc(S.thanks)}</div>
-          ${isR ? "" : `<div class="sh-pay"><h4>Payment Info:</h4><div><span>Account #:</span><b>${esc(S.bankAccount)}</b><span>A/C Name:</span><b>${esc(S.bankHolder)}</b><span>Bank Details:</span><b>${esc(S.bankName)}</b></div></div>`}
-        </div>
-        <div class="sh-tot">${totalsHtml}</div>
-      </div>
-      <div class="sh-foot">
-        <div class="sh-addr"><h5>${esc(S.businessName)}</h5>${esc(S.address)}<br><br>Contact: ${esc(S.phone)}<br>Email: ${esc(S.email)}<br>Instagram: ${esc(S.instagram)}</div>
-        <div class="sh-sign">Authorised Sign</div>
-      </div>
-    </div>
-    <div class="sh-note">Note: This is a computer generated ${isR ? "receipt" : "invoice"} and signature is not necessary.</div>
-  </div>`;
-}
-function render() {
-  const t = totals();
-  $("#sSub").textContent = rm(t.sub); $("#sBal").textContent = rm(t.bal);
-  $("#pv").innerHTML = sheetHTML(); fitPreview();
-}
-function fitPreview() {
-  const box = $("#pv"), sh = $(".sheet", box); if (!sh || !box.clientWidth) return;
-  const k = box.clientWidth / 794; sh.style.transform = `scale(${k})`; box.style.height = 1123 * k + "px";
-}
-addEventListener("resize", fitPreview);
-
-$("#printBtn").onclick = () => {
-  $("#printArea").innerHTML = sheetHTML();
-  const prev = document.title; document.title = `${doc.type === "receipt" ? "Receipt" : "Invoice"} ${doc.number} - ${doc.name || "customer"}`;
-  const img = $("#printArea img");
-  const go = () => { window.print(); document.title = prev; };
-  img.complete ? go() : (img.onload = go);
-};
-$("#saveBtn").onclick = async () => {
-  const isNew = !doc.id;
-  try {
-    doc.total = totals().sub;
-    doc.id = await Store.saveDoc(doc);
-    if (isNew && doc.number === nextNumber(doc.date)) { S.nextSeq = num(S.nextSeq) + 1; await Store.saveSettings(S); renderSettings(); }
-    if (isNew && doc.orderId && doc.type === "invoice") { await Store.setOrderStatus(doc.orderId, "quoted").catch(() => {}); const o = orders.find((x) => x.id === doc.orderId); if (o && o.status === "new") o.status = "quoted"; }
-    toast(`${doc.type === "receipt" ? "Receipt" : "Invoice"} ${doc.number} saved`);
-  } catch (e) { toast(e.message); }
-};
-
-// ================= history =================
-let docs = [];
-async function loadHistory() {
-  try { docs = await Store.listDocs(); } catch (e) { toast(e.message); docs = []; }
-  $("#hist").innerHTML = docs.length ? docs.map((r) => `<tr>
-    <td><b>${esc(r.doc_no)}</b></td><td><span class="pill ${r.doc_type === "receipt" ? "done" : "quoted"}">${r.doc_type}</span></td>
-    <td>${esc(r.data.name)}</td><td>${dmy(r.data.date)}</td><td class="r">${rm(num(r.data.total))}</td>
-    <td class="r" style="white-space:nowrap"><button class="btn small" data-open="${r.id}">Open</button> <button class="btn small ghost danger" data-del="${r.id}">Delete</button></td></tr>`).join("")
-    : `<tr><td colspan="6" class="empty">Nothing saved yet. Invoices and receipts you save will be listed here.</td></tr>`;
-}
-$("#hist").onclick = async (e) => {
-  const o = e.target.dataset.open, d = e.target.dataset.del;
-  if (o) { const r = docs.find((x) => x.id === o); doc = Object.assign(blankDoc(), r.data, { id: r.id, _numEdited: true }); fillBuilder(); showTab("builder"); }
-  if (d) {
-    if (e.target.dataset.armed) { await Store.deleteDoc(d); loadHistory(); toast("Deleted"); }
-    else { e.target.dataset.armed = 1; e.target.textContent = "Confirm delete"; }
-  }
-};
-
-// ================= settings =================
-function renderSettings() {
-  $$("[data-s]").forEach((el) => (el.value = S[el.dataset.s] ?? ""));
-  $("#plist").innerHTML = S.priceList.map((p, i) => `<div class="p"><input data-pl="name" data-i="${i}" value="${esc(p.name)}" aria-label="Item name"><input data-pl="price" data-i="${i}" value="${esc(p.price)}" type="number" step="0.01" aria-label="Price"><button data-prm="${i}" aria-label="Remove">×</button></div>`).join("");
-}
-$("#plist").addEventListener("input", (e) => { const { pl, i } = e.target.dataset; if (pl) S.priceList[i][pl] = pl === "price" ? num(e.target.value) : e.target.value; });
-$("#plist").addEventListener("click", (e) => { if (e.target.dataset.prm) { S.priceList.splice(+e.target.dataset.prm, 1); renderSettings(); } });
-$("#addPrice").onclick = () => { S.priceList.push({ name: "", price: 0 }); renderSettings(); };
-$("#saveSettings").onclick = async () => {
-  $$("[data-s]").forEach((el) => (S[el.dataset.s] = el.type === "number" ? num(el.value) : el.value));
-  S.priceList = S.priceList.filter((p) => p.name.trim());
-  try { await Store.saveSettings(S); renderSettings(); drawPresets(); render(); toast("Settings saved"); } catch (e) { toast(e.message); }
-};
-
-boot();
-</script>
+<script src="catalog.js"></script>
+<script src="admin.js"></script>
 </body>
 </html>

@@ -1,0 +1,54 @@
+/* Haise Design — shared styles. Teal + slate taken from the existing invoice. */
+:root {
+  --teal: #5fa69b;
+  --teal-dark: #3f8378;
+  --teal-soft: #e8f3f1;
+  --ink: #2f323a;
+  --ink-2: #5d616c;
+  --line: #dde3e2;
+  --bg: #f5f7f7;
+  --card: #ffffff;
+  --danger: #c0483f;
+  --warn: #c58a1c;
+  --radius: 10px;
+  --font: "Montserrat", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { font-family: var(--font); color: var(--ink); background: var(--bg); font-size: 15px; line-height: 1.5; -webkit-font-smoothing: antialiased; }
+img { max-width: 100%; }
+[hidden] { display: none !important; }
+a { color: var(--teal-dark); }
+h1, h2, h3 { line-height: 1.2; text-wrap: balance; margin: 0; }
+
+.brandbar { background: var(--card); border-bottom: 3px solid var(--teal); }
+.brandbar .in { max-width: 1180px; margin: 0 auto; padding: 14px max(16px, env(safe-area-inset-left)); display: flex; align-items: center; gap: 14px; }
+.brandbar img { width: 54px; height: 54px; }
+.brand-name { font-weight: 700; font-size: 20px; letter-spacing: .02em; }
+.brand-tag { font-size: 10px; letter-spacing: .32em; text-transform: uppercase; color: var(--ink-2); }
+.brandbar .spacer { flex: 1; }
+
+.btn { font: inherit; font-weight: 600; font-size: 14px; border: 1px solid var(--line); background: var(--card); color: var(--ink); padding: 10px 16px; border-radius: 8px; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; text-decoration: none; }
+.btn:hover { border-color: var(--teal); }
+.btn.primary { background: var(--teal); border-color: var(--teal); color: #fff; }
+.btn.primary:hover { background: var(--teal-dark); }
+.btn.ghost { background: transparent; border-color: transparent; color: var(--ink-2); }
+.btn.danger { color: var(--danger); }
+.btn.small { padding: 6px 10px; font-size: 13px; }
+.btn:disabled { opacity: .55; cursor: not-allowed; }
+.btn:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible, .choice:focus-within { outline: 2px solid var(--teal); outline-offset: 2px; }
+
+label.f { display: grid; gap: 6px; font-size: 13px; font-weight: 600; color: var(--ink-2); }
+input, select, textarea { font: inherit; font-size: 15px; color: var(--ink); background: #fff; border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; width: 100%; }
+textarea { min-height: 92px; resize: vertical; }
+.req-star { color: var(--danger); }
+.hint { font-size: 12px; color: var(--ink-2); font-weight: 400; }
+
+.pill { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; padding: 3px 9px; border-radius: 99px; background: var(--teal-soft); color: var(--teal-dark); }
+.pill.new { background: #fdf0d9; color: #8a5d0b; }
+.pill.quoted { background: #e3ecfb; color: #2c5596; }
+.pill.progress { background: var(--teal-soft); color: var(--teal-dark); }
+.pill.done { background: #e7e9ec; color: #4a4f59; }
+
+.toast { position: fixed; left: 50%; bottom: calc(24px + env(safe-area-inset-bottom)); transform: translateX(-50%); background: var(--ink); color: #fff; padding: 10px 18px; border-radius: 8px; font-size: 14px; z-index: 99; box-shadow: 0 6px 20px rgba(0,0,0,.2); }
+.demo-banner { background: #fdf0d9; color: #6d4a08; font-size: 13px; text-align: center; padding: 8px 16px; }

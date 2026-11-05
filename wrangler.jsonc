@@ -1,0 +1,11 @@
+// Cloudflare static site settings. No build step: the folder is served as-is.
+// Used by Cloudflare Workers; Cloudflare Pages ignores this file.
+{
+  "name": "haise-app",
+  "compatibility_date": "2026-10-01",
+  "assets": {
+    "directory": "."
+  },
+  // Needed for the preview link Cloudflare builds for each pull request.
+  "previews": {}
+}

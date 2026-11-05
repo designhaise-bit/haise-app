@@ -1,5 +1,11 @@
-# Same as netlify.toml, for drag-and-drop uploads.
+# Security and cache headers. Cloudflare Pages reads this file
+# (Netlify reads netlify.toml, which has the same rules).
+# Only the app's own scripts may run, so no inline scripts in the pages.
 /*
   Content-Security-Policy: script-src 'self'
   X-Frame-Options: DENY
   Referrer-Policy: strict-origin-when-cross-origin
+
+# Always fetch the latest settings after a deploy.
+/config.js
+  Cache-Control: no-cache

@@ -20,16 +20,16 @@ In demo mode everything is saved in that one browser only, so use it for testing
 4. Open **Authentication > Sign In / Providers** and turn **off** "Allow new users to sign up", so nobody else can create an admin account.
 5. Open **Project Settings > API**, copy the **Project URL** and the **anon public** key into `config.js`.
 
-**2. Hosting: Netlify (free plan)**
+**2. Hosting: Cloudflare Pages (free plan)**
 
-1. In Netlify: **Add new site > Import an existing project > GitHub > haise-app**.
-2. Leave the build command empty and the publish directory as `.`, then **Deploy**.
-3. Your customer link is that address. Your admin page is the same address + `/admin.html`.
+1. In Cloudflare: **Workers & Pages > Create > Pages > Import an existing Git repository**, connect GitHub and pick **haise-app**.
+2. Framework preset **None**, build command empty, build output directory empty, then **Save and Deploy**.
+3. Your customer link is `https://<project>.pages.dev`. Your admin page is the same address + `/admin` (Cloudflare drops the `.html`).
 4. Every push to `main` goes live automatically.
+5. In Supabase, open **Authentication > URL Configuration** and set **Site URL** to the `pages.dev` address.
 
-`netlify.toml` sets a security header that only allows the app's own scripts. That also stops the "Powered by Netlify" badge from appearing.
-
-GitHub Pages or Cloudflare Pages work the same way if you prefer them.
+`_headers` sets a security header that only allows the app's own scripts, and stops `config.js` being cached.
+`netlify.toml` holds the same rules in case you ever host on Netlify again.
 
 ## Free plan limits worth knowing
 

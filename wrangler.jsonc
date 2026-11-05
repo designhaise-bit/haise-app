@@ -1,0 +1,8 @@
+// Cloudflare Workers static site settings. No build step: the folder is served as-is.
+{
+  "name": "haise-app",
+  "compatibility_date": "2026-10-01",
+  "assets": {
+    "directory": "."
+  }
+}
